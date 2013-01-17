@@ -1,0 +1,40 @@
+<!--
+* Custom Visualforce Component that enables a PDF rendered Visualforce
+* page to display repeating header and footers. This component supports
+* displaying left, right, and center header text as well as page numbers.
+*
+* @author  John De Santiago
+* @version	2010-09-23
+*
+* Note: This component requires the use of the PDFDocumentSample.css stylesheet. included with this
+* package, to be added to the pdf rendered Visualforce page in order for the repeating headers to be 
+* rendered correctly. See the included PDFDocumentSample.txt file for sample usage.
+*
+* Liability and Warranty Disclaimer: This script is provided "as is" and without any warranties 
+* as to performance or merchantability, or any other warranties, whether expressed or implied. 
+* All scripts are supplied free but are unsupported. Do enjoy!
+-->
+<apex:component >
+	<!-- Component Attributes -->
+	<apex:attribute type="string" name="type"
+		description="Determines if the component renders as a header or footer" />
+	<apex:attribute type="string" name="position"
+		description="Determines if component should render the text on the left, center, or right" />
+	<apex:attribute type="boolean" name="showPageNumbers"
+		description="Determines if the header/footer information displays the page number information." />
+		
+	<!-- Component Variables -->	
+	<apex:variable var="styleClass" value="{!LOWER(type)}_{!LOWER(position)}"/>
+	
+	<!-- Component Body -->
+	<apex:outputPanel id="panelHeaderFooter" 
+		styleClass="{!styleClass}"
+		layout="block">
+		
+		<apex:outputPanel layout="none" rendered="{!showPageNumbers}">
+			<div>Page <span class="pageNumber"/> of <span class="pageCount"/> </div>
+		</apex:outputPanel>
+		
+		<apex:componentBody />
+	</apex:outputPanel>
+</apex:component>
