@@ -1,40 +1,43 @@
 <!--
-* Custom Visualforce Component that enables a PDF rendered Visualforce
-* page to display repeating header and footers. This component supports
-* displaying left, right, and center header text as well as page numbers.
+* Sample Visualforce page the illustrates implementing the PDF Repeating Header and Footers
+* solution.
 *
 * @author  John De Santiago
 * @version	2010-09-23
-*
-* Note: This component requires the use of the PDFDocumentSample.css stylesheet. included with this
-* package, to be added to the pdf rendered Visualforce page in order for the repeating headers to be 
-* rendered correctly. See the included PDFDocumentSample.txt file for sample usage.
 *
 * Liability and Warranty Disclaimer: This script is provided "as is" and without any warranties 
 * as to performance or merchantability, or any other warranties, whether expressed or implied. 
 * All scripts are supplied free but are unsupported. Do enjoy!
 -->
-<apex:component >
-	<!-- Component Attributes -->
-	<apex:attribute type="string" name="type"
-		description="Determines if the component renders as a header or footer" />
-	<apex:attribute type="string" name="position"
-		description="Determines if component should render the text on the left, center, or right" />
-	<apex:attribute type="boolean" name="showPageNumbers"
-		description="Determines if the header/footer information displays the page number information." />
-		
-	<!-- Component Variables -->	
-	<apex:variable var="styleClass" value="{!LOWER(type)}_{!LOWER(position)}"/>
-	
-	<!-- Component Body -->
-	<apex:outputPanel id="panelHeaderFooter" 
-		styleClass="{!styleClass}"
-		layout="block">
-		
-		<apex:outputPanel layout="none" rendered="{!showPageNumbers}">
-			<div>Page <span class="pageNumber"/> of <span class="pageCount"/> </div>
-		</apex:outputPanel>
-		
-		<apex:componentBody />
-	</apex:outputPanel>
-</apex:component>
+<apex:page renderas="pdf">
+    <!-- Stylesheets -->
+    <apex:stylesheet value="{!$Resource.PDFDocumentStyle}" />
+
+    <!-- First Page Header -->
+    <c:PDFHeaderFooter type="header" position="left">
+        <div style="padding: 10px; background-color: #ccc">Your Logo Here</div>
+    </c:PDFHeaderFooter>
+    <c:PDFHeaderFooter type="header" position="center">First Center Header Text</c:PDFHeaderFooter>
+    <c:PDFHeaderFooter type="header" position="right">First Right Header Text</c:PDFHeaderFooter>
+
+    <!-- All Pages Header -->
+    <c:PDFHeaderFooter type="header" position="left">
+        <div style="padding: 10px; background-color: #ccc">Your Logo Here</div>
+    </c:PDFHeaderFooter>
+    <c:PDFHeaderFooter type="header" position="center">Second Center Header Text</c:PDFHeaderFooter>
+    <c:PDFHeaderFooter type="header" position="right">Second Right Header Text</c:PDFHeaderFooter>
+
+    <!-- All Pages Footer -->
+    <c:PDFHeaderFooter type="footer" position="left">First Left Footer Text</c:PDFHeaderFooter>
+    <c:PDFHeaderFooter type="footer" position="center">First Center Footer Text</c:PDFHeaderFooter>
+    <c:PDFHeaderFooter type="footer" position="right" showPageNumbers="true"/>
+
+    <!-- Content -->
+    <h1 style="padding-top: 3000px; background-color: #eee;">My Test Document</h1>
+    <p>Test text</p>
+
+    <!-- Last Page Footer -->
+    <c:PDFHeaderFooter type="footer" position="left">Second Left Footer Text</c:PDFHeaderFooter>
+    <c:PDFHeaderFooter type="footer" position="center">Second Center Footer Text</c:PDFHeaderFooter>
+    <c:PDFHeaderFooter type="footer" position="right" showPageNumbers="true"/>
+</apex:page>
